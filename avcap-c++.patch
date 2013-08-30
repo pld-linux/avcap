@@ -1,0 +1,50 @@
+--- avcap-0.1.9/avcap/linux/AVC_FormatManager.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/AVC_FormatManager.cpp	2013-08-29 18:51:41.125165077 +0200
+@@ -25,6 +25,7 @@
+ #ifdef HAS_AVC_SUPPORT
+ 
+ #include <iostream>
++#include <memory>
+ #include <sys/ioctl.h>
+ 
+ #include "raw1394util.h"
+--- avcap-0.1.9/avcap/linux/V4L2_DeviceDescriptor.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_DeviceDescriptor.cpp	2013-08-29 19:52:44.181678020 +0200
+@@ -31,6 +31,7 @@
+ #include <linux/types.h>
+ #include <linux/videodev2.h>
+ #include <errno.h>
++#include <unistd.h>
+ 
+ #include "V4L2_DeviceDescriptor.h"
+ #include "V4L2_Device.h"
+--- avcap-0.1.9/avcap/DeviceCollector.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/DeviceCollector.cpp	2013-08-29 20:14:18.624957032 +0200
+@@ -22,6 +22,7 @@
+  */
+ 
+ 
++#include <cstring>
+ #include <iostream>
+ #include <sstream>
+ #include <sys/stat.h>
+--- avcap-0.1.9/test/captest.cpp.orig	2009-11-30 14:07:16.000000000 +0100
++++ avcap-0.1.9/test/captest.cpp	2013-08-29 20:18:15.978280403 +0200
+@@ -11,6 +11,7 @@
+ #endif
+ 
+ #include <stdlib.h>
++#include <string.h>
+ #include <getopt.h>
+ #include "avcap/avcap.h"
+ 
+--- avcap-0.1.9/avcap/linux/V4L2_VidCapManager.cpp.orig	2013-08-29 20:34:46.371572175 +0200
++++ avcap-0.1.9/avcap/linux/V4L2_VidCapManager.cpp	2013-08-29 20:35:19.461570785 +0200
+@@ -24,6 +24,7 @@
+ #include <string.h>
+ #include <iostream>
+ #include <time.h>
++#include <unistd.h>
+ #include <math.h>
+ #include <errno.h>
+ #include <sys/ioctl.h>

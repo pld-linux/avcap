@@ -1,0 +1,311 @@
+--- avcap-0.1.9/include/avcap/linux/V4L2_Connector.h.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/include/avcap/linux/V4L2_Connector.h	2013-08-29 18:20:52.665242649 +0200
+@@ -26,7 +26,7 @@
+ #define V4L2_CONNECTOR_H_
+ 
+ #include <linux/types.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ #include <string>
+ #include <list>
+--- avcap-0.1.9/include/avcap/linux/V4L2_ControlBase.h.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/include/avcap/linux/V4L2_ControlBase.h	2013-08-29 18:22:21.265238931 +0200
+@@ -26,7 +26,7 @@
+ 
+ #include <string>
+ #include <list>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ namespace avcap
+ {
+--- avcap-0.1.9/include/avcap/Connector.h.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/include/avcap/Connector.h	2013-08-29 18:20:24.445243835 +0200
+@@ -31,7 +31,7 @@
+ 
+ #ifdef AVCAP_LINUX
+ # include <linux/types.h>
+-# include <linux/videodev.h>
++# include <linux/videodev2.h>
+ #endif
+ 
+ #include <string>
+--- avcap-0.1.9/include/avcap/FormatManager.h.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/include/avcap/FormatManager.h	2013-08-29 18:21:19.895241507 +0200
+@@ -37,7 +37,7 @@
+ 
+ #ifdef AVCAP_LINUX
+ # include <linux/types.h>
+-# include <linux/videodev.h>
++# include <linux/videodev2.h>
+ #endif // AVCAP_LINUX
+ 
+ #ifdef _WIN32
+--- avcap-0.1.9/avcap/linux/V4L2_ConnectorManager.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_ConnectorManager.cpp	2013-08-29 18:19:48.648578669 +0200
+@@ -26,7 +26,7 @@
+ #include <iostream>
+ #include <assert.h>
+ #include <string.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ #include "V4L2_ConnectorManager.h"
+ #include "V4L2_DeviceDescriptor.h"
+--- avcap-0.1.9/avcap/linux/V4L2_ControlBase.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_ControlBase.cpp	2013-08-29 18:21:56.158573318 +0200
+@@ -26,7 +26,7 @@
+ #include <sys/types.h>
+ #include <linux/types.h>
+ #include <sys/ioctl.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ #include <errno.h>
+ 
+ #include "V4L2_ControlBase.h"
+--- avcap-0.1.9/avcap/linux/AVC_DeviceDescriptor.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/AVC_DeviceDescriptor.cpp	2013-08-29 18:22:59.278570669 +0200
+@@ -23,6 +23,7 @@
+ 
+ #ifdef HAS_AVC_SUPPORT
+ 
++#include <cstdio>
+ #include <sstream>
+ 
+ #include "AVC_DeviceDescriptor.h"
+--- avcap-0.1.9/avcap/linux/Makefile.am.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/Makefile.am	2013-08-29 18:45:22.635180961 +0200
+@@ -4,11 +4,22 @@
+ liblinuxavcap_la_SOURCES = \
+ 	raw1394util.cpp           V4L2_ConnectorManager.cpp\
+ 	AVC_Device.cpp            V4L2_ControlBase.cpp\
+-	AVC_DeviceDescriptor.cpp  V4L1_ConnectorManager.cpp  V4L2_ControlManager.cpp\
+-	AVC_FormatManager.cpp     V4L1_Control.cpp           V4L2_Device.cpp\
+-	AVC_Reader.cpp            V4L1_ControlManager.cpp    V4L2_DeviceDescriptor.cpp\
+-	AVC_VidCapManager.cpp     V4L1_Device.cpp\
+-	error.cpp                 V4L1_DeviceDescriptor.cpp  V4L2_FormatManager.cpp\
+-	frame.cpp                 V4L1_FormatManager.cpp     V4L2_MenuControl.cpp\
+-	ieee1394io.cpp            V4L1_VidCapManager.cpp     V4L2_Tuner.cpp\
+-	V4L2_Connector.cpp        V4L2_VidCapManager.cpp	
+\ No newline at end of file
++	AVC_DeviceDescriptor.cpp  V4L2_ControlManager.cpp\
++	AVC_FormatManager.cpp     V4L2_Device.cpp\
++	AVC_Reader.cpp            V4L2_DeviceDescriptor.cpp\
++	AVC_VidCapManager.cpp \
++	error.cpp                 V4L2_FormatManager.cpp\
++	frame.cpp                 V4L2_MenuControl.cpp\
++	ieee1394io.cpp            V4L2_Tuner.cpp\
++	V4L2_Connector.cpp        V4L2_VidCapManager.cpp
++
++if WITH_V4L1
++liblinuxavcap_la_SOURCES += \
++	V4L1_ConnectorManager.cpp \
++	V4L1_Control.cpp \
++	V4L1_ControlManager.cpp \
++	V4L1_Device.cpp \
++	V4L1_DeviceDescriptor.cpp \
++	V4L1_FormatManager.cpp \
++	V4L1_VidCapManager.cpp
++endif
+--- avcap-0.1.9/configure.in.orig	2009-11-30 14:07:16.000000000 +0100
++++ avcap-0.1.9/configure.in	2013-08-29 18:25:57.135229872 +0200
+@@ -70,6 +70,8 @@
+ 	PLATFORM_SUBDIR=linux
+ 	PLATFORM_LIB=linux/liblinuxavcap.la
+ 	AC_CHECK_HEADER(linux/videodev.h)
++	AC_CHECK_HEADER(linux/videodev2.h)
++	AM_CONDITIONAL([WITH_V4L1], [test x$ac_cv_header_linux_videodev_h = xyes])
+ 	AC_DEFINE([LINUX], [1], [Compile avcap for Linux])
+ fi
+ 
+--- avcap-0.1.9/avcap/linux/V4L2_ControlManager.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_ControlManager.cpp	2013-08-29 18:50:24.601834955 +0200
+@@ -28,7 +28,7 @@
+ #include <iostream>
+ #include <sys/ioctl.h>
+ #include <linux/types.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ #include "Control_avcap.h"
+ #include "V4L2_ControlManager.h"
+--- avcap-0.1.9/avcap/linux/V4L2_DeviceDescriptor.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_DeviceDescriptor.cpp	2013-08-29 18:57:21.248484137 +0200
+@@ -29,7 +29,7 @@
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <linux/types.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ #include <errno.h>
+ 
+ #include "V4L2_DeviceDescriptor.h"
+--- avcap-0.1.9/avcap/linux/V4L2_FormatManager.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_FormatManager.cpp	2013-08-29 20:08:53.041637362 +0200
+@@ -25,7 +25,7 @@
+ #include <string.h>
+ #include <errno.h>
+ #include <sys/ioctl.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ #include "V4L2_FormatManager.h"
+ #include "DeviceDescriptor.h"
+@@ -453,6 +453,7 @@
+ 
+ int V4L2_FormatManager::setFramerate(int fps)
+ {
++#ifdef HAVE_LINUX_VIDEODEV_H
+ 	// there is a special way to set the framerate for the pwc driver
+ 	if(mDeviceDescriptor->getDriver() == "pwc") {
+ 		struct video_window vwin;
+@@ -465,6 +466,7 @@
+ 		 
+ 		return ioctl(mDeviceDescriptor->getHandle(), VIDIOCSWIN, &vwin);
+ 	} 
++#endif
+ 	
+ 	struct v4l2_streamparm setfps;  
+ 	memset(&setfps, 0, sizeof(struct v4l2_streamparm));
+@@ -478,6 +480,7 @@
+ 
+ int V4L2_FormatManager::getFramerate()
+ {
++#ifdef HAVE_LINUX_VIDEODEV_H
+ 	// there is a special way to get the framerate for the pwc driver
+ 	if(mDeviceDescriptor->getDriver() == "pwc") {
+ 		struct video_window vwin;
+@@ -488,6 +491,7 @@
+ 		else
+     		return 0;
+ 	}
++#endif
+ 	
+ 	struct v4l2_streamparm setfps;  
+ 	memset(&setfps, 0, sizeof(struct v4l2_streamparm));
+--- avcap-0.1.9/avcap/linux/V4L2_MenuControl.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_MenuControl.cpp	2013-08-29 20:09:25.334969339 +0200
+@@ -24,7 +24,7 @@
+ #include <string.h>
+ #include <sys/ioctl.h>
+ #include <linux/types.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ #include "V4L2_MenuControl.h"
+ #include "V4L2_ControlBase.h"
+--- avcap-0.1.9/avcap/linux/V4L2_Tuner.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_Tuner.cpp	2013-08-29 20:09:56.138301380 +0200
+@@ -25,7 +25,7 @@
+ #include <string.h>
+ #include <iostream>
+ #include <sys/ioctl.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ #include "V4L2_Tuner.h"
+ #include "V4L2_DeviceDescriptor.h"
+--- avcap-0.1.9/include/avcap/linux/V4L2_Tuner.h.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/include/avcap/linux/V4L2_Tuner.h	2013-08-29 20:10:30.114966621 +0200
+@@ -26,7 +26,7 @@
+ #define V4L2_TUNER_H_
+ 
+ #include <linux/types.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ #include <sys/types.h>
+ #include <string>
+ 
+--- avcap-0.1.9/avcap/linux/V4L2_Connector.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_Connector.cpp	2013-08-29 20:10:55.278298897 +0200
+@@ -25,7 +25,7 @@
+ #include <string>
+ #include <iostream>
+ #include <sys/ioctl.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ #include "V4L2_Connector.h"
+ #include "V4L2_DeviceDescriptor.h"
+--- avcap-0.1.9/avcap/linux/V4L2_VidCapManager.cpp.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/avcap/linux/V4L2_VidCapManager.cpp	2013-08-29 20:34:46.371572175 +0200
+@@ -31,7 +31,7 @@
+ #include <sys/select.h>
+ #include <sys/time.h>
+ #include <linux/types.h>
+-#include <linux/videodev.h>
++#include <linux/videodev2.h>
+ 
+ #include "V4L2_VidCapManager.h"
+ #include "V4L2_DeviceDescriptor.h"
+--- avcap-0.1.9/avcap/DeviceCollector.cpp.orig	2013-08-29 20:35:51.968236087 +0200
++++ avcap-0.1.9/avcap/DeviceCollector.cpp	2013-08-29 20:41:15.358222517 +0200
+@@ -36,9 +36,13 @@
+ #include "log.h"
+ 
+ #ifdef AVCAP_LINUX
++# ifdef HAVE_LINUX_VIDEODEV_H
+ # include "V4L1_Device.h"
++# endif
+ # include "V4L2_Device.h"
++# ifdef HAVE_LINUX_VIDEODEV_H
+ # include "V4L1_DeviceDescriptor.h"
++#  endif
+ # include "V4L2_DeviceDescriptor.h"
+ # ifdef HAS_AVC_SUPPORT
+ #  include "AVC_DeviceDescriptor.h"
+@@ -70,7 +74,9 @@
+ #ifdef AVCAP_LINUX
+ 	// prefer V4L2-driver over V4L1-driver, if both are available
+ 	query_V4L2_Devices();
++#ifdef HAVE_LINUX_VIDEODEV_H
+ 	query_V4L1_Devices();
++#endif
+ 	query_ieee1394_Devices();
+ #endif
+ 
+@@ -117,6 +123,7 @@
+    	}
+ }
+ 
++#ifdef HAVE_LINUX_VIDEODEV_H
+ void DeviceCollector::query_V4L1_Devices()
+ {
+ 	// test all /dev/video* nodes, whether they are a valid V4L1 device.
+@@ -126,6 +133,7 @@
+ 		test_V4L1_Device(ostr.str());
+    	}
+ }
++#endif
+ 
+ int DeviceCollector::test_V4L2_Device(const std::string& name)
+ {
+@@ -173,6 +181,7 @@
+ 	return -1;
+ }
+ 
++#ifdef HAVE_LINUX_VIDEODEV_H
+ int DeviceCollector::test_V4L1_Device(const std::string& name)
+ {
+ 	// first check, if there already exists a descriptor for this dev-file
+@@ -217,6 +226,7 @@
+ 
+ 	return -1;
+ }
++#endif
+ 
+ void DeviceCollector::query_ieee1394_Devices()
+ {
+@@ -272,9 +282,11 @@
+ 	if(test_V4L2_Device(name) == 0)
+ 		return true;
+ 
++#ifdef HAVE_LINUX_VIDEODEV_H
+ 	if(test_V4L1_Device(name) == 0)
+ 		return true;
+ #endif
++#endif
+ 
+ 	return false;
+ }
