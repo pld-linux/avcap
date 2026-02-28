@@ -2,7 +2,7 @@ Summary:	Cross-platform, API-independent C++ video capture library
 Summary(pl.UTF-8):	Wieloplatformowa, niezależna od API biblioteka C++ do przechwytywania obrazu
 Name:		avcap
 Version:	0.1.9
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/libavcap/%{name}-%{version}.tar.gz
