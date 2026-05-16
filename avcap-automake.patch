@@ -1,0 +1,12 @@
+--- avcap-0.1.9/configure.in.orig	2009-11-30 14:07:14.000000000 +0100
++++ avcap-0.1.9/configure.in
+@@ -43,8 +43,7 @@ m4_ifdef([AS_HELP_STRING], , [m4_define(
+ # echo $AVCAP_VERSION $LT_RELEASE $LT_CURRENT $LT_REVISION
+
+ AC_CONFIG_AUX_DIR([aux_config])
+-AM_INIT_AUTOMAKE(avcap, $AVCAP_VERSION)
+-AM_INIT_AUTOMAKE([-Wall])
++AM_INIT_AUTOMAKE([-Wall])
+ AC_CONFIG_HEADER([config.h])
+ AX_PREFIX_CONFIG_H([avcap-config.h], AVCAP)
+
