@@ -2,7 +2,7 @@ Summary:	Cross-platform, API-independent C++ video capture library
 Summary(pl.UTF-8):	Wieloplatformowa, niezależna od API biblioteka C++ do przechwytywania obrazu
 Name:		avcap
 Version:	0.1.9
-Release:	3
+Release:	4
 License:	GPL v3+
 Group:		Libraries
 Source0:	https://downloads.sourceforge.net/libavcap/%{name}-%{version}.tar.gz
@@ -12,6 +12,7 @@ Patch1:		%{name}-c++.patch
 Patch2:		%{name}-install.patch
 Patch3:		%{name}-automake.patch
 Patch4:		%{name}-assert-func.patch
+Patch5:		%{name}-link.patch
 URL:		https://libavcap.sourceforge.net/
 BuildRequires:	autoconf >= 2.56
 BuildRequires:	automake
@@ -88,6 +89,7 @@ Dokumentacja API biblioteki avcap.
 %patch -P2 -p1
 %patch -P3 -p1
 %patch -P4 -p1
+%patch -P5 -p1
 
 # keep AX_PREFIX_CONFIG_H, kill libtool macros
 head -n 87 acinclude.m4 > acinclude.m4.tmp
@@ -109,7 +111,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# .la kept, *.private dependencies are missing in .pc
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libavcap.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -121,13 +124,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog README
 %attr(755,root,root) %{_bindir}/captest
-%attr(755,root,root) %{_libdir}/libavcap.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libavcap.so.6
+%{_libdir}/libavcap.so.*.*.*
+%ghost %{_libdir}/libavcap.so.6
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libavcap.so
-%{_libdir}/libavcap.la
+%{_libdir}/libavcap.so
 %{_includedir}/avcap
 %{_pkgconfigdir}/avcap.pc
 
