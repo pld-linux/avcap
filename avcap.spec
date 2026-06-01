@@ -5,14 +5,14 @@ Version:	0.1.9
 Release:	3
 License:	GPL v3+
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/libavcap/%{name}-%{version}.tar.gz
+Source0:	https://downloads.sourceforge.net/libavcap/%{name}-%{version}.tar.gz
 # Source0-md5:	7e7ba375c68ab37b984b91ae23d0f164
 Patch0:		%{name}-v4l2.patch
 Patch1:		%{name}-c++.patch
 Patch2:		%{name}-install.patch
 Patch3:		%{name}-automake.patch
 Patch4:		%{name}-assert-func.patch
-URL:		http://libavcap.sourceforge.net/
+URL:		https://libavcap.sourceforge.net/
 BuildRequires:	autoconf >= 2.56
 BuildRequires:	automake
 BuildRequires:	libavc1394-devel
